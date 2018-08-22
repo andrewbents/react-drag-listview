@@ -1,4 +1,14 @@
 const closest = function(el, selector, rootNode) {
+  if (el == null) { // eslint-disable-line
+    return null;
+  }
+  if (el.nodeType === Node.TEXT_NODE) {
+    if (el.parentElement) {
+      el = el.parentElement; // eslint-disable-line
+    } else {
+      return null;
+    }
+  }
   const rootElement = rootNode || document.body;
   let element = el;
   const matchesSelector = element.matches
