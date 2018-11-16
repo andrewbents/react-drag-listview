@@ -20,13 +20,17 @@ class ReactDragListView extends React.Component {
     enableScroll: PropTypes.bool,
     scrollSpeed: PropTypes.number,
     lineClassName: PropTypes.string,
-    children: PropTypes.node
+    children: PropTypes.node,
+    getDomIndex: PropTypes.func,
+    getScrollElement: PropTypes.func,
   }
 
   static defaultProps = {
     nodeSelector: DEFAULT_NODE_SELECTOR,
     enableScroll: true,
-    scrollSpeed: 10
+    scrollSpeed: 10,
+    getDomIndex,
+    getScrollElement
   }
 
   constructor(props) {
@@ -85,7 +89,7 @@ class ReactDragListView extends React.Component {
       };
       const fromIndex = this.getItemIndex(target);
       this.setState({ fromIndex, toIndex: fromIndex });
-      this.scrollElement = getScrollElement(parentNode);
+      this.scrollElement = this.props.getScrollElement(parentNode);
     }
   }
 
@@ -127,7 +131,7 @@ class ReactDragListView extends React.Component {
   getItemIndex(target) {
     return this.props.nodeSelector === DEFAULT_NODE_SELECTOR
             ? (target.rowIndex - 1)
-            : getDomIndex(target);
+            : this.props.getDomIndex(target);
   }
 
   getDragNode(target) {
