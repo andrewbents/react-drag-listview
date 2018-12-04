@@ -116,10 +116,10 @@ class ReactDragListView extends React.Component {
     this.stopAutoScroll();
     if (target) {
       target.removeAttribute('draggable');
-      target.ondragstart = target.ondragend
-                         = target.parentNode.ondragenter
-                         = target.parentNode.ondragover
-                         = null;
+      if (target.parentNode) {
+        target.parentNode.ondragenter = target.parentNode.ondragover = null;
+      }
+      target.ondragstart = target.ondragend = null;
       if (this.state.fromIndex >= 0 && this.state.fromIndex !== this.state.toIndex) {
         this.props.onDragEnd(this.state.fromIndex, this.state.toIndex);
       }
